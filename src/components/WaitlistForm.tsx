@@ -17,7 +17,31 @@ import {
   ShoppingBag,
   ShoppingCart,
   X,
+  ChevronDown,
 } from "lucide-react";
+
+const InputField = ({
+  icon: Icon,
+  label,
+  required,
+  children,
+}: {
+  icon: React.ElementType;
+  label: string;
+  required?: boolean;
+  children: React.ReactNode;
+}) => (
+  <div className="space-y-1.5">
+    <label className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-[0.08em] text-slate-500">
+      {label}
+      {required && <span className="text-indigo-500">*</span>}
+    </label>
+    <div className="relative group">
+      <Icon className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-indigo-500 transition-colors pointer-events-none" />
+      {children}
+    </div>
+  </div>
+);
 
 export default function WaitlistForm() {
   const [role, setRole] = useState<"shopper" | "merchant">("merchant");
@@ -26,8 +50,6 @@ export default function WaitlistForm() {
   const [phone, setPhone] = useState("");
   const [stateLocation, setStateLocation] = useState("Lagos");
   const [businessCategory, setBusinessCategory] = useState("Supermarket / Hypermarket");
-  
-  // Modal state
   const [showModal, setShowModal] = useState(false);
   const [copied, setCopied] = useState(false);
 
@@ -35,9 +57,7 @@ export default function WaitlistForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (fullName.trim() && email.trim()) {
-      setShowModal(true);
-    }
+    if (fullName.trim() && email.trim()) setShowModal(true);
   };
 
   const handleCopy = () => {
@@ -46,38 +66,57 @@ export default function WaitlistForm() {
     setTimeout(() => setCopied(false), 2500);
   };
 
+  const inputClass =
+    "w-full pl-11 pr-4 py-3.5 text-sm font-medium text-slate-800 bg-slate-50 border border-slate-200 rounded-xl outline-none transition-all focus:bg-white focus:border-indigo-500 focus:ring-3 focus:ring-indigo-100 placeholder-slate-400";
+
+  const selectClass = inputClass + " appearance-none cursor-pointer";
+
   return (
     <section
       id="waitlist"
-      className="py-20 relative overflow-hidden"
-      style={{ background: "#FAFAFA" }}
+      className="relative py-24 overflow-hidden"
+      style={{ background: "linear-gradient(160deg, #0F0B2E 0%, #1E1653 100%)" }}
     >
-      <div className="mx-auto max-w-4xl px-5 sm:px-8">
-        {/* Header */}
-        <div className="text-center mb-10 space-y-3">
+      {/* Ambient glow */}
+      <div
+        className="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[400px] rounded-full pointer-events-none opacity-30"
+        style={{ background: "radial-gradient(circle, #4F3FFF 0%, transparent 70%)" }}
+      />
+
+      <div className="relative mx-auto max-w-2xl px-5 sm:px-8 z-10">
+
+        {/* Section header */}
+        <div className="text-center mb-12 space-y-4">
           <div
-            className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-widest px-3.5 py-1.5 rounded-full"
-            style={{ background: "#EEF2FF", color: "#4F3FFF" }}
+            className="inline-flex items-center gap-2 text-[11px] font-extrabold uppercase tracking-widest px-4 py-1.5 rounded-full"
+            style={{ background: "rgba(79,63,255,0.25)", color: "#A5B4FC", border: "1px solid rgba(165,180,252,0.25)" }}
           >
-            Reserve Your Spot
+            🎯 Limited Beta Spots
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Ready to rescue food <span style={{ color: "#4F3FFF" }}>and your wallet?</span>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white tracking-tight leading-tight">
+            Ready to rescue food<br />
+            <span style={{ color: "#818CF8" }}>and your wallet?</span>
           </h2>
-          <p className="text-sm sm:text-base text-slate-500 max-w-lg mx-auto">
-            Limited spots available for our beta launch. Turn your unwanted store inventory to profit.
+          <p className="text-slate-400 text-sm sm:text-base max-w-md mx-auto leading-relaxed">
+            Turn your unwanted store inventory into profit. Reserve your spot before we launch.
           </p>
         </div>
 
-        {/* Clean Form Card */}
-        <div
-          className="rounded-3xl p-6 sm:p-10 shadow-xl border border-slate-100 bg-white max-w-2xl mx-auto"
+        {/* Form Card */}
+        <motion.div
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.5 }}
+          className="rounded-3xl overflow-hidden shadow-2xl"
+          style={{
+            background: "rgba(255,255,255,0.04)",
+            border: "1px solid rgba(255,255,255,0.08)",
+            backdropFilter: "blur(20px)",
+          }}
         >
-          {/* Role Toggle */}
-          <div
-            className="grid grid-cols-2 gap-1.5 p-1.5 rounded-2xl mb-8"
-            style={{ background: "#F1F5F9" }}
-          >
+          {/* Role selector header */}
+          <div className="p-2 m-4 mb-0 rounded-2xl grid grid-cols-2 gap-1.5" style={{ background: "rgba(255,255,255,0.06)" }}>
             {[
               { value: "merchant" as const, icon: Store, label: "I own a store" },
               { value: "shopper" as const, icon: ShoppingBag, label: "I'm a shopper" },
@@ -86,150 +125,142 @@ export default function WaitlistForm() {
                 key={value}
                 type="button"
                 onClick={() => setRole(value)}
-                className="flex items-center justify-center gap-2 py-2.5 px-3 rounded-xl text-xs font-semibold transition-all"
+                className="flex items-center justify-center gap-2 py-3 px-4 rounded-xl text-sm font-bold transition-all"
                 style={
                   role === value
                     ? {
                         background: "linear-gradient(135deg, #4F3FFF, #6B5EFF)",
                         color: "white",
-                        boxShadow: "0 4px 12px rgba(79,63,255,0.3)",
+                        boxShadow: "0 4px 20px rgba(79,63,255,0.4)",
                       }
-                    : { color: "#64748B" }
+                    : { color: "rgba(255,255,255,0.5)" }
                 }
               >
-                <Icon className="w-3.5 h-3.5" />
+                <Icon className="w-4 h-4" />
                 {label}
               </button>
             ))}
           </div>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {/* Form body */}
+          <form onSubmit={handleSubmit} className="p-6 sm:p-8 pt-6 space-y-5">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
               {/* Name */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
-                  Name <span style={{ color: "#4F3FFF" }}>*</span>
-                </label>
-                <div className="relative">
-                  <User className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                  <input
-                    type="text"
-                    required
-                    value={fullName}
-                    onChange={(e) => setFullName(e.target.value)}
-                    placeholder="Adewale Johnson"
-                    className="input-field pl-10"
-                  />
-                </div>
-              </div>
+              <InputField icon={User} label="Full Name" required>
+                <input
+                  type="text"
+                  required
+                  value={fullName}
+                  onChange={(e) => setFullName(e.target.value)}
+                  placeholder="Adewale Johnson"
+                  className={inputClass}
+                />
+              </InputField>
 
               {/* Email */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
-                  Email Address <span style={{ color: "#4F3FFF" }}>*</span>
-                </label>
-                <div className="relative">
-                  <Mail className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                  <input
-                    type="email"
-                    required
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="you@example.com"
-                    className="input-field pl-10"
-                  />
-                </div>
-              </div>
+              <InputField icon={Mail} label="Email Address" required>
+                <input
+                  type="email"
+                  required
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="you@example.com"
+                  className={inputClass}
+                />
+              </InputField>
 
-              {/* Phone Number */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
-                  Phone Number
-                </label>
-                <div className="relative">
-                  <Phone className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
-                  <input
-                    type="tel"
-                    value={phone}
-                    onChange={(e) => setPhone(e.target.value)}
-                    placeholder="08012345678"
-                    className="input-field pl-10"
-                  />
-                </div>
-              </div>
+              {/* Phone */}
+              <InputField icon={Phone} label="Phone Number">
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={(e) => setPhone(e.target.value)}
+                  placeholder="08012345678"
+                  className={inputClass}
+                />
+              </InputField>
 
               {/* State */}
-              <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
-                  State <span style={{ color: "#4F3FFF" }}>*</span>
-                </label>
+              <InputField icon={MapPin} label="State" required>
                 <div className="relative">
-                  <MapPin className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                   <select
                     value={stateLocation}
                     onChange={(e) => setStateLocation(e.target.value)}
-                    className="input-field pl-10 appearance-none cursor-pointer"
+                    className={selectClass}
                   >
                     {NIGERIAN_STATES.map((s) => (
                       <option key={s} value={s}>{s}</option>
                     ))}
                   </select>
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 </div>
-              </div>
+              </InputField>
             </div>
 
             {/* Business Category — merchants only */}
             {role === "merchant" && (
-              <div>
-                <label className="block text-xs font-semibold text-slate-500 mb-1.5 uppercase tracking-wide">
-                  Business Category
-                </label>
+              <InputField icon={Briefcase} label="Business Category">
                 <div className="relative">
-                  <Briefcase className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                   <select
                     value={businessCategory}
                     onChange={(e) => setBusinessCategory(e.target.value)}
-                    className="input-field pl-10 appearance-none cursor-pointer"
+                    className={selectClass}
                   >
                     {BUSINESS_CATEGORIES.map((c) => (
                       <option key={c} value={c}>{c}</option>
                     ))}
                   </select>
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 pointer-events-none" />
                 </div>
-              </div>
+              </InputField>
             )}
 
-            <div className="pt-3">
+            {/* Submit */}
+            <div className="pt-2">
               <button
                 type="submit"
-                className="w-full flex items-center justify-center gap-2 text-sm font-bold py-4 rounded-xl text-white transition-all hover:scale-[1.01] active:scale-95 shadow-lg"
+                className="w-full flex items-center justify-center gap-2.5 text-sm font-extrabold py-4 rounded-xl text-white transition-all hover:scale-[1.01] active:scale-[0.99] shadow-xl"
                 style={{
-                  background: "linear-gradient(135deg, #4F3FFF, #6B5EFF)",
-                  boxShadow: "0 8px 24px rgba(79,63,255,0.3)",
+                  background: "linear-gradient(135deg, #4F3FFF 0%, #7C3AED 100%)",
+                  boxShadow: "0 8px 32px rgba(79,63,255,0.5)",
                 }}
               >
                 Reserve Your Spot
                 <ArrowRight className="w-4 h-4" />
               </button>
-              <p className="text-xs text-slate-400 text-center mt-3">
+              <p className="text-[11px] text-slate-500 text-center mt-3">
                 No spam. Unsubscribe at any time.
               </p>
             </div>
           </form>
+        </motion.div>
+
+        {/* Social proof below form */}
+        <div className="mt-8 flex items-center justify-center gap-6 flex-wrap">
+          {[
+            { value: "500+", label: "Stores joining" },
+            { value: "Lagos, Abuja, PHC", label: "Priority cities" },
+            { value: "Free", label: "To join beta" },
+          ].map((s) => (
+            <div key={s.label} className="text-center">
+              <div className="text-white font-extrabold text-lg">{s.value}</div>
+              <div className="text-slate-500 text-[11px] font-medium">{s.label}</div>
+            </div>
+          ))}
         </div>
       </div>
 
-      {/* Success Pop-up Modal with Tick & Shopping Cart Card */}
+      {/* Success Modal */}
       <AnimatePresence>
         {showModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/70 backdrop-blur-md">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-lg">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              initial={{ opacity: 0, scale: 0.88, y: 24 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              className="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 relative shadow-2xl border border-slate-100 text-center space-y-5"
+              exit={{ opacity: 0, scale: 0.88, y: 24 }}
+              transition={{ type: "spring", stiffness: 380, damping: 28 }}
+              className="bg-white rounded-3xl max-w-sm w-full p-8 relative shadow-2xl text-center space-y-5"
             >
-              {/* Close X button */}
               <button
                 onClick={() => setShowModal(false)}
                 className="absolute top-4 right-4 p-2 rounded-full bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors"
@@ -237,55 +268,55 @@ export default function WaitlistForm() {
                 <X className="w-4 h-4" />
               </button>
 
-              {/* Shopping Cart Card with Success Tick */}
+              {/* Icon */}
               <div className="relative mx-auto w-20 h-20">
                 <div
-                  className="w-full h-full rounded-3xl flex items-center justify-center text-white shadow-xl"
-                  style={{ background: "linear-gradient(135deg, #4F3FFF, #6B5EFF)" }}
+                  className="w-full h-full rounded-3xl flex items-center justify-center shadow-xl"
+                  style={{ background: "linear-gradient(135deg, #4F3FFF, #7C3AED)" }}
                 >
-                  <ShoppingCart className="w-10 h-10 text-white" />
+                  <ShoppingCart className="w-9 h-9 text-white" />
                 </div>
-                {/* Green Checkmark Badge */}
-                <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white rounded-full p-1 border-2 border-white shadow">
+                <div className="absolute -bottom-1 -right-1 bg-emerald-500 text-white rounded-full p-1 border-2 border-white shadow-lg">
                   <CheckCircle2 className="w-5 h-5" />
                 </div>
               </div>
 
-              {/* Headline */}
+              {/* Text */}
               <div>
                 <h3 className="text-2xl font-extrabold text-slate-900 tracking-tight">
-                  Thank you! You are on the list.
+                  You're on the list! 🎉
                 </h3>
                 <p className="text-sm text-slate-500 mt-2 leading-relaxed">
-                  We've reserved your priority spot, <span className="font-bold text-slate-800">{fullName.split(" ")[0]}</span>! We'll notify <span className="font-semibold text-slate-700">{email}</span> the moment BestBefore launches in {stateLocation}.
+                  Hey <span className="font-bold text-slate-800">{fullName.split(" ")[0]}</span>, your spot in{" "}
+                  <span className="font-semibold text-indigo-600">{stateLocation}</span> is reserved. We'll notify{" "}
+                  <span className="font-medium text-slate-700">{email}</span> at launch.
                 </p>
               </div>
 
-              {/* Referral Link Card */}
-              <div className="rounded-2xl bg-slate-50 border border-slate-200 p-3.5 space-y-2 text-left">
-                <p className="text-[11px] font-bold text-slate-500 uppercase tracking-wider">Share & Bump your spot</p>
-                <div className="flex items-center gap-2 bg-white rounded-xl border border-slate-200 p-2">
-                  <span className="flex-1 text-xs font-mono text-slate-600 truncate">
+              {/* Referral */}
+              <div className="rounded-2xl bg-slate-50 border border-slate-200 p-4 space-y-2 text-left">
+                <p className="text-[10px] font-extrabold text-slate-400 uppercase tracking-widest">Share & move up the list</p>
+                <div className="flex items-center gap-2 bg-white rounded-xl border border-slate-200 px-3 py-2">
+                  <span className="flex-1 text-[11px] font-mono text-slate-600 truncate">
                     bestbefore.ng/join?ref={referralCode}
                   </span>
                   <button
                     onClick={handleCopy}
-                    className="flex items-center gap-1 text-xs font-bold px-3 py-1.5 rounded-lg text-white shrink-0"
+                    className="flex items-center gap-1 text-[11px] font-bold px-3 py-1.5 rounded-lg text-white shrink-0 transition-all"
                     style={{ background: "#4F3FFF" }}
                   >
                     {copied ? <Check className="w-3.5 h-3.5" /> : <Copy className="w-3.5 h-3.5" />}
-                    {copied ? "Copied" : "Copy"}
+                    {copied ? "Copied!" : "Copy"}
                   </button>
                 </div>
               </div>
 
-              {/* Action Button */}
               <button
                 onClick={() => setShowModal(false)}
-                className="w-full py-3.5 rounded-xl font-bold text-sm text-white shadow-lg transition-transform active:scale-95"
-                style={{ background: "linear-gradient(135deg, #00D4AA, #00B894)" }}
+                className="w-full py-3.5 rounded-xl font-extrabold text-sm text-white shadow-lg transition-transform active:scale-95"
+                style={{ background: "linear-gradient(135deg, #4F3FFF, #7C3AED)" }}
               >
-                Got It, Thank You!
+                Got it, thanks!
               </button>
             </motion.div>
           </div>
