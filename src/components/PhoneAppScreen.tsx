@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, MapPin, Tag, ShoppingBag, Sparkles } from "lucide-react";
+import { Search, MapPin, Sparkles, ShoppingBag } from "lucide-react";
 
 export default function PhoneAppScreen() {
   const products = [
@@ -15,24 +15,24 @@ export default function PhoneAppScreen() {
       image: "https://images.unsplash.com/photo-1563636619-e9143da7973b?auto=format&fit=crop&w=300&q=80",
     },
     {
-      name: "Golden Penny Sugar 1kg",
+      name: "Indomie Noodle Box (Pack of 40)",
       store: "SPAR Supermarket",
       location: "VI, Lagos",
-      price: "₦950",
-      was: "₦2,500",
-      discount: "62% OFF",
-      daysLeft: "2 days left",
-      image: "https://images.unsplash.com/photo-1581441363689-1f3c3c414635?auto=format&fit=crop&w=300&q=80",
-    },
-    {
-      name: "Indomie Onion Chicken (Box of 40)",
-      store: "Hubmart Stores",
-      location: "Lekki Phase 1",
       price: "₦3,800",
       was: "₦9,500",
       discount: "60% OFF",
+      daysLeft: "2 days left",
+      image: "/raw_noodles_pack.jpg",
+    },
+    {
+      name: "Golden Penny Parboiled Rice 10kg",
+      store: "Hubmart Stores",
+      location: "Lekki Phase 1",
+      price: "₦7,500",
+      was: "₦18,000",
+      discount: "58% OFF",
       daysLeft: "4 days left",
-      image: "https://images.unsplash.com/photo-1612929633738-8fe44f7ec841?auto=format&fit=crop&w=300&q=80",
+      image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=300&q=80",
     },
     {
       name: "Devon King's Vegetable Oil 5L",

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -30,22 +30,31 @@ export default function Navbar() {
             : "bg-transparent"
         }`}
       >
-        <div className="mx-auto max-w-6xl px-5 sm:px-8 flex items-center justify-between h-[68px]">
-          {/* Logo */}
-          <a href="#" className="flex items-center gap-2 group">
+        <div className="mx-auto max-w-6xl px-5 sm:px-8 flex items-center justify-between h-[72px]">
+          {/* Logo with Shopping Cart Icon & Byline */}
+          <a href="#" className="flex items-center gap-2.5 group">
             <div
-              className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-extrabold text-base shadow-md"
+              className="w-10 h-10 rounded-xl flex items-center justify-center text-white shadow-md transition-transform group-hover:scale-105 shrink-0"
               style={{ background: "linear-gradient(135deg, #4F3FFF, #6B5EFF)" }}
             >
-              BB
+              <ShoppingCart className="w-5 h-5 text-white" />
             </div>
-            <span
-              className={`text-lg font-bold tracking-tight transition-colors ${
-                scrolled ? "text-slate-900" : "text-white"
-              }`}
-            >
-              BestBefore
-            </span>
+            <div className="flex flex-col">
+              <span
+                className={`text-lg font-extrabold tracking-tight leading-none transition-colors ${
+                  scrolled ? "text-slate-900" : "text-white"
+                }`}
+              >
+                BestBefore
+              </span>
+              <span
+                className={`text-[10px] font-semibold tracking-tight transition-colors mt-0.5 ${
+                  scrolled ? "text-indigo-600" : "text-emerald-300"
+                }`}
+              >
+                Nigeria's First Near-Due date Marketplace
+              </span>
+            </div>
           </a>
 
           {/* Desktop nav */}

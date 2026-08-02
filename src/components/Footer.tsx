@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, MapPin, ExternalLink } from "lucide-react";
+import { Mail, MapPin, ShoppingCart } from "lucide-react";
 
 export default function Footer() {
   return (
@@ -21,22 +21,27 @@ export default function Footer() {
           <div className="md:col-span-2 space-y-5">
             <div className="flex items-center gap-2.5">
               <div
-                className="w-9 h-9 rounded-xl flex items-center justify-center text-white font-extrabold text-base shadow-md"
+                className="w-9 h-9 rounded-xl flex items-center justify-center text-white shadow-md"
                 style={{ background: "linear-gradient(135deg, #4F3FFF, #6B5EFF)" }}
               >
-                BB
+                <ShoppingCart className="w-5 h-5 text-white" />
               </div>
-              <span className="text-lg font-bold text-white tracking-tight">BestBefore</span>
+              <div className="flex flex-col">
+                <span className="text-lg font-bold text-white tracking-tight leading-none">BestBefore</span>
+                <span className="text-[10px] text-emerald-300 font-semibold tracking-tight mt-0.5">
+                  Nigeria's First Near-Due date Marketplace
+                </span>
+              </div>
             </div>
-            <p className="text-sm leading-relaxed max-w-xs" style={{ color: "rgba(255,255,255,0.5)" }}>
-              Nigeria's premium marketplace helping businesses recover value from products approaching their best-before date.
+            <p className="text-sm leading-relaxed max-w-xs" style={{ color: "rgba(255,255,255,0.6)" }}>
+              Nigeria's First Near-Due date Marketplace helping businesses recover value from products approaching their best-before date.
             </p>
             <div className="space-y-2">
-              <div className="flex items-center gap-2.5 text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
+              <div className="flex items-center gap-2.5 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
                 <MapPin className="w-4 h-4 shrink-0" style={{ color: "#6B5EFF" }} />
                 Lagos, Nigeria
               </div>
-              <div className="flex items-center gap-2.5 text-sm" style={{ color: "rgba(255,255,255,0.45)" }}>
+              <div className="flex items-center gap-2.5 text-sm" style={{ color: "rgba(255,255,255,0.5)" }}>
                 <Mail className="w-4 h-4 shrink-0" style={{ color: "#6B5EFF" }} />
                 Partner@BestBefore.ng
               </div>
@@ -95,8 +100,8 @@ export default function Footer() {
 
         {/* Bottom bar */}
         <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-xs" style={{ color: "rgba(255,255,255,0.3)" }}>
-            BestBefore © 2026 | Lagos, Nigeria
+          <p className="text-xs font-medium" style={{ color: "rgba(255,255,255,0.4)" }}>
+            BestBefore © 2026 | Lagos, Nigeria | Partner@BestBefore.ng
           </p>
           <div className="flex items-center gap-5">
             {["Privacy Policy", "Terms of Service"].map((item) => (
@@ -104,9 +109,9 @@ export default function Footer() {
                 key={item}
                 href="#"
                 className="text-xs transition-colors"
-                style={{ color: "rgba(255,255,255,0.3)" }}
-                onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.7)")}
-                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.3)")}
+                style={{ color: "rgba(255,255,255,0.4)" }}
+                onMouseEnter={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.8)")}
+                onMouseLeave={(e) => (e.currentTarget.style.color = "rgba(255,255,255,0.4)")}
               >
                 {item}
               </a>

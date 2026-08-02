@@ -7,7 +7,7 @@ interface ProfessionalPhoneUIProps {
   highlightItem?: string;
 }
 
-export default function ProfessionalPhoneUI({ step, highlightItem }: ProfessionalPhoneUIProps) {
+export default function ProfessionalPhoneUI({ step }: ProfessionalPhoneUIProps) {
   const categories = [
     { name: "Dairy", icon: "🥛", bg: "#EEF2FF" },
     { name: "Pantry", icon: "🌾", bg: "#FEF3C7" },
@@ -32,16 +32,29 @@ export default function ProfessionalPhoneUI({ step, highlightItem }: Professiona
     },
     {
       id: 2,
-      name: "Golden Penny Pure Sugar 1kg Box",
+      name: "Indomie Instant Noodles (Box of 40)",
       store: "SPAR Supermarket",
       location: "Victoria Island",
       rating: "4.8",
       delivery: "20-30 mins",
-      clearancePrice: "₦950",
-      originalPrice: "₦2,500",
-      discount: "62% OFF",
+      clearancePrice: "₦3,800",
+      originalPrice: "₦9,500",
+      discount: "60% OFF",
       daysLeft: "2 days left",
-      image: "https://images.unsplash.com/photo-1581441363689-1f3c3c414635?auto=format&fit=crop&w=400&q=80",
+      image: "/raw_noodles_pack.jpg", // Raw packaged dry noodles carton
+    },
+    {
+      id: 3,
+      name: "Golden Penny Parboiled Rice 10kg",
+      store: "Hubmart Stores",
+      location: "Lekki Phase 1",
+      rating: "4.7",
+      delivery: "10-20 mins",
+      clearancePrice: "₦7,500",
+      originalPrice: "₦18,000",
+      discount: "58% OFF",
+      daysLeft: "4 days left",
+      image: "https://images.unsplash.com/photo-1586201375761-83865001e31c?auto=format&fit=crop&w=400&q=80",
     },
   ];
 
@@ -58,9 +71,9 @@ export default function ProfessionalPhoneUI({ step, highlightItem }: Professiona
         </div>
       </div>
 
-      {/* App Header (Location + Wallet) */}
+      {/* App Header (Location + Savings) */}
       <div className="bg-white px-4 py-2.5 border-b border-slate-100 flex items-center justify-between shrink-0">
-        <div className="flex items-center gap-1.5 bg-slate-100 hover:bg-slate-200/70 px-2.5 py-1 rounded-full text-xs font-semibold text-slate-800 transition-colors">
+        <div className="flex items-center gap-1.5 bg-slate-100 px-2.5 py-1 rounded-full text-xs font-semibold text-slate-800">
           <MapPin className="w-3.5 h-3.5 text-indigo-600" />
           <span className="font-bold text-[11px]">Yaba, Lagos</span>
           <ChevronDown className="w-3 h-3 text-slate-400" />
@@ -91,7 +104,7 @@ export default function ProfessionalPhoneUI({ step, highlightItem }: Professiona
             {categories.map((cat) => (
               <div key={cat.name} className="flex flex-col items-center gap-1 shrink-0">
                 <div
-                  className="w-11 h-11 rounded-2xl flex items-center justify-center text-lg shadow-sm border border-slate-100 transition-transform active:scale-95"
+                  className="w-10 h-10 rounded-2xl flex items-center justify-center text-base shadow-sm border border-slate-100"
                   style={{ background: cat.bg }}
                 >
                   {cat.icon}
@@ -115,11 +128,11 @@ export default function ProfessionalPhoneUI({ step, highlightItem }: Professiona
           </button>
         </div>
 
-        {/* Deals Feed */}
+        {/* Grocery Deals Feed */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
             <h3 className="text-xs font-black text-slate-900 tracking-tight">Supermarket Clearance Deals</h3>
-            <span className="text-[10px] font-extrabold text-indigo-600 hover:underline">See all</span>
+            <span className="text-[10px] font-extrabold text-indigo-600">See all</span>
           </div>
 
           <div className="space-y-3">
@@ -132,7 +145,7 @@ export default function ProfessionalPhoneUI({ step, highlightItem }: Professiona
                     : "border-slate-100 hover:border-slate-200"
                 }`}
               >
-                <div className="relative h-28 w-full rounded-xl overflow-hidden bg-slate-100 mb-2.5">
+                <div className="relative h-24 w-full rounded-xl overflow-hidden bg-slate-100 mb-2">
                   <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
                   
                   {/* Discount Badge */}
@@ -146,7 +159,7 @@ export default function ProfessionalPhoneUI({ step, highlightItem }: Professiona
                   </div>
                 </div>
 
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   <div className="flex items-center justify-between text-[10px] font-bold text-indigo-600">
                     <span className="truncate">{item.store}</span>
                     <span className="text-slate-400 font-normal shrink-0">{item.delivery}</span>
@@ -158,12 +171,12 @@ export default function ProfessionalPhoneUI({ step, highlightItem }: Professiona
 
                   <div className="flex items-center justify-between pt-1 border-t border-slate-50">
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-sm font-black text-slate-900">{item.clearancePrice}</span>
+                      <span className="text-xs font-black text-slate-900">{item.clearancePrice}</span>
                       <span className="text-[10px] text-slate-400 line-through">{item.originalPrice}</span>
                     </div>
 
-                    <button className="flex items-center gap-1 bg-indigo-600 hover:bg-indigo-700 active:scale-95 text-white text-[10px] font-extrabold px-3 py-1.5 rounded-xl shadow-sm transition-all">
-                      <Plus className="w-3 h-3" /> Add
+                    <button className="flex items-center gap-1 bg-indigo-600 text-white text-[9px] font-extrabold px-2.5 py-1 rounded-lg shadow-sm">
+                      <Plus className="w-2.5 h-2.5" /> Add
                     </button>
                   </div>
                 </div>
